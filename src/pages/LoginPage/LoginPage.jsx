@@ -1,30 +1,30 @@
 import React from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <Container>
-      <h1>MyWallet</h1>
-      <Form>
-        <input placeholder="E-mail"></input>
-        <input placeholder="Senha"></input>
-        <button>Entrar</button>
-      </Form>
-      <p>
-        Primeira vez?{" "}
-        <Link to={"/cadastro"} style={{ textDecoration: "none" }}>
-          <strong> Cadastre-se</strong>
-        </Link>
-      </p>
-    </Container>
+      <Container>
+        <h1>MyWallet</h1>
+        <Form>
+          <input placeholder="E-mail"></input>
+          <input placeholder="Senha"></input>
+          <button>Entrar</button>
+        </Form>
+        <p>
+          Primeira vez?{" "}
+          <Link to={"/cadastro"} style={{ textDecoration: "none" }}>
+            <strong> Cadastre-se</strong>
+          </Link>
+        </p>
+      </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  padding-top: 15%;
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;

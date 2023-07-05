@@ -1,5 +1,5 @@
-import Login from "./pages/LoginPage/LoginPage.jsx";
-import Register from "./pages/RegisterPage/RegisterPage.jsx";
+import Login from "./pages/LoginPage/LoginPage";
+import Register from "./pages/RegisterPage/RegisterPage"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
