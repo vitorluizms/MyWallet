@@ -1,30 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Deposit() {
-  return (
-    <Container>
-      <h1>Nova Entrada</h1>
-      <Form>
-        <input
-          type="text"
-          pattern="^\d+(\.\d{1,2})?$"
-          placeholder="Valor"
-          id="value"
-          name="value"
-          required
-        />
-        <input
-          type="text"
-          name="description"
-          id="description"
-          placeholder="Descrição"
-          required
-        />
-        <button>Salvar entrada</button>
-      </Form>
-    </Container>
-  );
+  const params = useParams();
+  const [value, setValue] = useState();
+  const [description, setDescription] = useState("");
+  if (params.tipo === ":entrada") {
+    return (
+      <Container>
+        <h1>Nova Entrada</h1>
+        <Form>
+          <input
+            type="number"
+            placeholder="Valor"
+            id="value"
+            name="value"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            name="description"
+            id="description"
+            placeholder="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          <button>Salvar entrada</button>
+        </Form>
+      </Container>
+    );
+  } else if (params.tipo === ":saida") {
+    return (
+      <Container>
+        <h1>Nova Saída</h1>
+        <Form>
+          <input
+            type="text"
+            pattern="^\d+(\.\d{1,2})?$"
+            placeholder="Valor"
+            id="value"
+            name="value"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            name="description"
+            id="description"
+            placeholder="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          <button>Salvar saída</button>
+        </Form>
+      </Container>
+    );
+  }
 }
 
 const Container = styled.div`

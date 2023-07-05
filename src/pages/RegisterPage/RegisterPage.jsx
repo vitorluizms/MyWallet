@@ -26,6 +26,7 @@ export default function Register() {
           <input
             placeholder="Nome"
             id="name"
+            name="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -34,6 +35,7 @@ export default function Register() {
           <input
             placeholder="E-mail"
             id="email"
+            name="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -42,6 +44,7 @@ export default function Register() {
           <input
             placeholder="Senha"
             id="password"
+            name="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -50,6 +53,7 @@ export default function Register() {
           <input
             placeholder="Confirme a senha"
             id="confirmPass"
+            name="confirmPass"
             type="password"
             value={confirmPass}
             onChange={(e) => {
