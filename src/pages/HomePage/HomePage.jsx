@@ -5,8 +5,68 @@ import React, { useState } from "react";
 export default function Home() {
   const [transationsObj, setObj] = useState([
     {
-      text: "aguaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      text: "comprar agua",
       date: "26/09",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
+      spent: "R$ 51,00",
+    },
+    {
+      text: "comprar agua",
+      date: "26/10",
       spent: "R$ 51,00",
     },
   ]);
@@ -112,14 +172,17 @@ const TransationsContainer = styled.div`
   width: 326px;
   height: 446px;
   padding: 23px 12px 23px 12px;
+  gap: 20px;
+  overflow-y: scroll;
 
   border-radius: 5px;
   background: #fff;
 
   display: flex;
-  justify-content: center;
-  align-items: ${(props) =>
-    props.obj.length === 0 ? "center" : "space-between"};
+  flex-direction: column;
+  align-items: center;
+  justify-content: ${(props) =>
+    props.obj.length === 0 ? "center" : ""};
 
   h2 {
     color: #868686;
