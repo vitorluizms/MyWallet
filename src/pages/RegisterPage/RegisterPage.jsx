@@ -16,6 +16,7 @@ export default function Register() {
       email,
       password 
     };
+    console.log(body)
   }
 
   return (
