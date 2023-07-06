@@ -1,5 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Register() {
@@ -8,77 +9,90 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPass, setPass] = useState("");
   const [validPass, setValid] = useState("true");
+  const navigate = useNavigate();
 
-  function signUp(e) {
+  async function signUp(e) {
     e.preventDefault();
-    const body = {
-      name,
-      email,
-      password 
-    };
-    console.log(body)
+    if (password !== confirmPass) return alert("Digite senhas iguais!");
+    try {
+      const body = {
+        name,
+        email,
+        password: password,
+      };
+      const req = await axios.post(
+        `${import.meta.env.VITE_API_URL}/sign-up`,
+        body
+      );
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      let errors = "";
+      err.response.data.forEach((element, index) => {
+        if (index !== err.response.data.length - 1)
+          errors += element + "\n"  ;
+        else errors += element;
+      });
+      alert(errors)
+    }
   }
 
   return (
-      <Container validpass={validPass}>
-        <h1>MyWallet</h1>
-        <Form onSubmit={signUp} email={email}>
-          <input
-            placeholder="Nome"
-            id="name"
-            name="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          ></input>
-          <input
-            placeholder="E-mail"
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          ></input>
-          <input
-            placeholder="Senha"
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          ></input>
-          <input
-            placeholder="Confirme a senha"
-            id="confirmPass"
-            name="confirmPass"
-            type="password"
-            value={confirmPass}
-            onChange={(e) => {
-              setPass(e.target.value);
-              if (password !== e.target.value) {
-                setValid("false");
-              } else {
-                setValid("true");
-              }
-            }}
-            required
-          ></input>
-          <button>Cadastrar</button>
-        </Form>
-        <p>
-          Parece que as senhas inseridas não são iguais. Por favor, tente
-          novamente!
-        </p>
-        <p>
-          Já tem uma conta?
-          <Link to={"/"} style={{ textDecoration: "none" }}>
-            <strong> Entre agora!</strong>
-          </Link>
-        </p>
-      </Container>
+    <Container validpass={validPass}>
+      <h1>MyWallet</h1>
+      <Form onSubmit={signUp} email={email}>
+        <input
+          placeholder="Nome"
+          id="name"
+          name="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        ></input>
+        <input
+          placeholder="E-mail"
+          id="email"
+          name="email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></input>
+        <input
+          placeholder="Senha"
+          id="password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></input>
+        <input
+          placeholder="Confirme a senha"
+          id="confirmPass"
+          name="confirmPass"
+          type="password"
+          value={confirmPass}
+          onChange={(e) => {
+            setPass(e.target.value);
+            if (password !== e.target.value) {
+              setValid("false");
+            } else {
+              setValid("true");
+            }
+          }}
+        ></input>
+        <button>Cadastrar</button>
+      </Form>
+      <p>
+        Parece que as senhas inseridas não são iguais. Por favor, tente
+        novamente!
+      </p>
+      <p>
+        Já tem uma conta?
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <strong> Entre agora!</strong>
+        </Link>
+      </p>
+    </Container>
   );
 }
 
