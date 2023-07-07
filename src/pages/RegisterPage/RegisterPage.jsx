@@ -26,14 +26,7 @@ export default function Register() {
       );
       navigate("/");
     } catch (err) {
-      console.log(err);
-      let errors = "";
-      err.response.data.forEach((element, index) => {
-        if (index !== err.response.data.length - 1)
-          errors += element + "\n"  ;
-        else errors += element;
-      });
-      alert(errors)
+      alert(err.response.data)
     }
   }
 
@@ -48,14 +41,16 @@ export default function Register() {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         ></input>
         <input
           placeholder="E-mail"
           id="email"
           name="email"
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         ></input>
         <input
           placeholder="Senha"
@@ -64,6 +59,7 @@ export default function Register() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         ></input>
         <input
           placeholder="Confirme a senha"
@@ -79,6 +75,7 @@ export default function Register() {
               setValid("true");
             }
           }}
+          required
         ></input>
         <button>Cadastrar</button>
       </Form>

@@ -1,23 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+
+  async function signIn(e) {
+    e.preventDefault();
+    try {
+      const body = { email, password };
+      const req = await axios.post(
+        `${import.meta.env.VITE_API_URL}/sign-in`,
+        body
+      );
+      localStorage.setItem("user", JSON.stringify(req.data));
+      navigate("/home")
+    } catch (err) {
+      alert(err.response.data);
+    }
+  }
   return (
-      <Container>
-        <h1>MyWallet</h1>
-        <Form>
-          <input placeholder="E-mail"></input>
-          <input placeholder="Senha"></input>
-          <button>Entrar</button>
-        </Form>
-        <p>
-          Primeira vez?{" "}
-          <Link to={"/cadastro"} style={{ textDecoration: "none" }}>
-            <strong> Cadastre-se</strong>
-          </Link>
-        </p>
-      </Container>
+    <Container>
+      <h1>MyWallet</h1>
+      <Form onSubmit={signIn}>
+        <input
+          placeholder="E-mail"
+          id="email"
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        ></input>
+        <input
+          placeholder="Senha"
+          id="password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        ></input>
+        <button type="submit">Entrar</button>
+      </Form>
+      <p>
+        Primeira vez?{" "}
+        <Link to={"/cadastro"} style={{ textDecoration: "none" }}>
+          <strong> Cadastre-se</strong>
+        </Link>
+      </p>
+    </Container>
   );
 }
 
