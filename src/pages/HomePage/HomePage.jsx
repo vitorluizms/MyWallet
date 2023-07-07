@@ -1,126 +1,66 @@
 import Transation from "./Transation";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { UserContext } from "../../contexts/userContexts";
 
 export default function Home() {
-  const [transationsObj, setObj] = useState([
-    {
-      text: "comprar agua",
-      date: "26/09",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-    {
-      text: "comprar agua",
-      date: "26/10",
-      spent: "R$ 51,00",
-    },
-  ]);
-  console.log(transationsObj.length);
+  const [transationsObj, setObj] = useState([]);
+  const { user } = useContext(UserContext);
 
-  if (transationsObj.length !== 0) {
-    return (
-      <Container>
-        <div>
-          <h1>Olá, Fulano</h1>
-          <ion-icon name="log-out-outline"></ion-icon>
-        </div>
-        <TransationsContainer obj={transationsObj}>
-          {transationsObj.map((transation) => (
-            <Transation transation={transation} />
-          ))}
-        </TransationsContainer>
-        <div>
-          <DepositContainer>
-            <ion-icon name="add-circle-outline"></ion-icon>
-            <div>
-              <p>Nova</p>
-              <p>Entrada</p>
-            </div>
-          </DepositContainer>
-          <CashoutContainer>
-            <ion-icon name="remove-circle-outline"></ion-icon>
-            <div>
-              <p>Nova</p>
-              <p>Saída</p>
-            </div>
-          </CashoutContainer>
-        </div>
-      </Container>
-    );
-  } else {
-    return (
-      <Container>
-        <div>
-          <h1>Olá, Fulano</h1>
-          <ion-icon name="log-out-outline"></ion-icon>
-        </div>
-        <TransationsContainer obj={transationsObj}>
+  useEffect(
+    () =>
+      async function getTransations() {
+        try {
+          const req = await axios.get(`${import.meta.env.VITE_API_URL}/transations`, {
+            headers: { Authorization: `Bearer ${user.token}` },
+          });
+          console.log(req)
+          setObj(req.data)
+        } catch (err) {
+          if (!user.token) {
+            alert("Faça login!");
+          } else {
+            alert(err)
+          }
+        }
+      },
+    []
+  );
+
+  return (
+    <Container>
+      <div>
+        <h1>Olá, Fulano</h1>
+        <ion-icon name="log-out-outline"></ion-icon>
+      </div>
+      <TransationsContainer obj={transationsObj}>
+        {transationsObj.length === 0 ? (
           <h2>Não há registros de entrada ou saída</h2>
-        </TransationsContainer>
-        <div>
-          <DepositContainer>
-            <ion-icon name="add-circle-outline"></ion-icon>
-          </DepositContainer>
-          <CashoutContainer>aaaaa</CashoutContainer>
-        </div>
-      </Container>
-    );
-  }
+        ) : (
+          transationsObj.map((transation) => (
+            <Transation key={transation.description} transation={transation} />
+          ))
+        )}
+      </TransationsContainer>
+      <div>
+        <DepositContainer>
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <div>
+            <p>Nova</p>
+            <p>Entrada</p>
+          </div>
+        </DepositContainer>
+        <CashoutContainer>
+          <ion-icon name="remove-circle-outline"></ion-icon>
+          <div>
+            <p>Nova</p>
+            <p>Saída</p>
+          </div>
+        </CashoutContainer>
+      </div>
+    </Container>
+  );
 }
 
 const Container = styled.div`
@@ -181,8 +121,7 @@ const TransationsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: ${(props) =>
-    props.obj.length === 0 ? "center" : ""};
+  justify-content: ${(props) => (props.obj.length === 0 ? "center" : "")};
 
   h2 {
     color: #868686;

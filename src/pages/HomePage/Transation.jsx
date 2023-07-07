@@ -1,15 +1,16 @@
+import dayjs from "dayjs";
 import React from "react";
 import styled from "styled-components";
 
 export default function Transation(props) {
-  const { text, spent, date } = props.transation;
+  const { description, value, date } = props.transation;
   return (
     <div>
       <Date>{date}</Date>
       <div>
-        <Text>{text}</Text>
+        <Text>{description}</Text>
       </div>
-      <Money>{spent}</Money>
+      <Money>{value}</Money>
     </div>
   );
 }
