@@ -3,36 +3,43 @@ import styled from "styled-components";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../contexts/userContexts";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [transationsObj, setObj] = useState([]);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  useEffect(
-    () =>
-      async function getTransations() {
-        try {
-          const req = await axios.get(`${import.meta.env.VITE_API_URL}/transations`, {
-            headers: { Authorization: `Bearer ${user.token}` },
-          });
-          console.log(req)
-          setObj(req.data)
-        } catch (err) {
-          if (!user.token) {
-            alert("Faça login!");
-          } else {
-            alert(err)
-          }
+  useEffect(() => {
+    console.log(user)
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/transations`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((req) => {
+        console.log(req);
+        setObj(req.data);
+      })
+      .catch((err) => {
+        if (!user.token) {
+          alert("Faça login!");
+          navigate("/")
+        } else {
+          alert(err); 
         }
-      },
-    []
-  );
+      });
+  }, []);
+
+  function logOut() {
+    localStorage.clear();
+    navigate("/");
+  }
 
   return (
     <Container>
       <div>
         <h1>Olá, Fulano</h1>
-        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-icon name="log-out-outline" onClick={logOut}></ion-icon>
       </div>
       <TransationsContainer obj={transationsObj}>
         {transationsObj.length === 0 ? (

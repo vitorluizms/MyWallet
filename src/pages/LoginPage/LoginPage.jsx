@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link, json, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../../contexts/userContexts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {user, setUser} = useContext(UserContext)
   const navigate = useNavigate()
 
   async function signIn(e) {
@@ -17,6 +19,7 @@ export default function Login() {
         body
       );
       localStorage.setItem("user", JSON.stringify(req.data));
+      setUser(req.data)
       navigate("/home")
     } catch (err) {
       alert(err.response.data);
