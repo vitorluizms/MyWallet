@@ -26,7 +26,7 @@ export default function Register() {
       );
       navigate("/");
     } catch (err) {
-      alert(err.response.data)
+      alert(err.response.data);
     }
   }
 
@@ -59,6 +59,7 @@ export default function Register() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          minLength={3}
           required
         ></input>
         <input
@@ -75,6 +76,7 @@ export default function Register() {
               setValid("true");
             }
           }}
+          minLength={3}
           required
         ></input>
         <button>Cadastrar</button>

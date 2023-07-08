@@ -3,15 +3,16 @@ import styled from "styled-components";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../contexts/userContexts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [transationsObj, setObj] = useState([]);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
     axios
       .get(`${import.meta.env.VITE_API_URL}/transations`, {
         headers: { Authorization: `Bearer ${user.token}` },
@@ -19,13 +20,22 @@ export default function Home() {
       .then((req) => {
         console.log(req);
         setObj(req.data);
+        let count = 0;
+        req.data.forEach((element) => {
+          if (element.type === "deposit") {
+            count += Number(element.value);
+          } else {
+            count -= Number(element.value);
+          }
+        });
+        setBalance(count.toFixed(2));
       })
       .catch((err) => {
         if (!user.token) {
           alert("Faça login!");
-          navigate("/")
+          navigate("/");
         } else {
-          alert(err); 
+          alert(err);
         }
       });
   }, []);
@@ -45,26 +55,42 @@ export default function Home() {
         {transationsObj.length === 0 ? (
           <h2>Não há registros de entrada ou saída</h2>
         ) : (
-          transationsObj.map((transation) => (
-            <Transation key={transation.description} transation={transation} />
-          ))
+          <>
+            {transationsObj.map((transation, index) => (
+              <Transation key={index} transation={transation} />
+            ))}
+            <ContainerBalance>
+              <h3>SALDO</h3>
+              <p>{balance}</p>
+            </ContainerBalance>
+          </>
         )}
       </TransationsContainer>
       <div>
-        <DepositContainer>
-          <ion-icon name="add-circle-outline"></ion-icon>
-          <div>
-            <p>Nova</p>
-            <p>Entrada</p>
-          </div>
-        </DepositContainer>
-        <CashoutContainer>
-          <ion-icon name="remove-circle-outline"></ion-icon>
-          <div>
-            <p>Nova</p>
-            <p>Saída</p>
-          </div>
-        </CashoutContainer>
+        <Link
+          to={"/nova-transacao/:deposit"}
+          style={{ textDecoration: "none" }}
+        >
+          <DepositContainer>
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <div>
+              <p>Nova</p>
+              <p>Entrada</p>
+            </div>
+          </DepositContainer>
+        </Link>
+        <Link
+          to={"/nova-transacao/:withDrawal"}
+          style={{ textDecoration: "none" }}
+        >
+          <CashoutContainer>
+            <ion-icon name="remove-circle-outline"></ion-icon>
+            <div>
+              <p>Nova</p>
+              <p>Saída</p>
+            </div>
+          </CashoutContainer>
+        </Link>
       </div>
     </Container>
   );
@@ -74,9 +100,8 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-
-  gap: 25px;
-  padding-top: 25px;
+  position: absolute;
+  top: 0px;
 
   display: flex;
   flex-direction: column;
@@ -93,7 +118,8 @@ const Container = styled.div`
 
   & > div:first-child {
     width: 326px;
-    height: 100%;
+    position: absolute;
+    top: 25px;
 
     display: flex;
     justify-content: space-between;
@@ -103,8 +129,9 @@ const Container = styled.div`
 
   & > div:last-child {
     width: 326px;
-    height: 100%;
     gap: 15px;
+    position: absolute;
+    top: 537px;
 
     display: flex;
   }
@@ -115,12 +142,45 @@ const Container = styled.div`
   }
 `;
 
+const ContainerBalance = styled.div`
+  width: 326px;
+  height: 30px;
+  margin-top: 393px;
+  position: fixed;
+  z-index: 2;
+  background-color: white;
+  padding: 0px 12px 0px 12px;
+  display: flex;
+  justify-content: space-between;
+
+  h3 {
+    color: #000;
+    font-family: Raleway;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  p {
+    color: #03ac00;
+    text-align: right;
+    font-family: Raleway;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
 const TransationsContainer = styled.div`
   width: 326px;
   height: 446px;
   padding: 23px 12px 23px 12px;
-  gap: 20px;
   overflow-y: scroll;
+  position: relative;
+  top: 78px;
+  left: 0px;
 
   border-radius: 5px;
   background: #fff;
@@ -139,27 +199,11 @@ const TransationsContainer = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-
-  div {
-    width: 303px;
-    height: 16px;
-
-    display: flex;
-    justify-content: space-between;
-
-    div {
-      max-width: 160px;
-      height: 100%;
-      word-break: break-all;
-      margin-left: -20px;
-    }
-  }
 `;
 
 const DepositContainer = styled.div`
   width: 155px;
   height: 114px;
-  flex-shrink: 0;
   padding: 9px;
 
   display: flex;
@@ -182,7 +226,6 @@ const DepositContainer = styled.div`
 const CashoutContainer = styled.div`
   width: 155px;
   height: 114px;
-  flex-shrink: 0;
   padding: 9px;
 
   display: flex;

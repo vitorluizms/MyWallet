@@ -1,23 +1,55 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "../../contexts/userContexts";
+import axios from "axios";
 
 export default function Deposit() {
   const params = useParams();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-  if (params.tipo === ":entrada") {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  console.log(params.tipo)
+
+  const postTransation = (e) => {
+    e.preventDefault();
+    if (value <= 0) {
+      alert("Você precisa digitar um valor maior que zero!");
+    }
+    const newValue = Number(value).toFixed(2);
+    const body = {
+      value: newValue,
+      description,
+    };
+    console.log(body);
+    axios.post(`${import.meta.env.VITE_API_URL}/transation/${params.tipo}`, body, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
+    .then( () => {
+      navigate("/home")
+    })
+    .catch( (error) => {
+      console.log(error)
+    })
+  };
+  if (params.tipo === ":deposit") {
     return (
       <Container>
         <h1>Nova Entrada</h1>
-        <Form>
+        <Form onSubmit={postTransation}>
           <input
-            type="number"
+            type="text"
             placeholder="Valor"
             id="value"
             name="value"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              const padrao = /^[0-9]*\.?[0-9]*$/;
+              if (padrao.test(e.target.value)) {
+                setValue(e.target.value);
+              }
+            }}
             required
           />
           <input
@@ -29,18 +61,17 @@ export default function Deposit() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-          <button>Salvar entrada</button>
+          <button type="submit">Salvar entrada</button>
         </Form>
       </Container>
     );
-  } else if (params.tipo === ":saida") {
+  } else if (params.tipo === ":withDrawal") {
     return (
       <Container>
         <h1>Nova Saída</h1>
-        <Form>
+        <Form onSubmit={postTransation}>
           <input
             type="text"
-            pattern="^\d+(\.\d{1,2})?$"
             placeholder="Valor"
             id="value"
             name="value"

@@ -3,17 +3,39 @@ import React from "react";
 import styled from "styled-components";
 
 export default function Transation(props) {
-  const { description, value, date } = props.transation;
+  const { description, value, date, type } = props.transation;
   return (
-    <div>
-      <Date>{date}</Date>
+    <Container>
       <div>
+        <Date>{date}</Date>
+
         <Text>{description}</Text>
       </div>
-      <Money>{value}</Money>
-    </div>
+      <div>
+        <Money type={type}>{value}</Money>
+      </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  width: 303px;
+  height: 16px;
+  margin-bottom: 10px;
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+
+  div:first-child {
+    display: flex;
+    max-width: 160px;
+    height: 100%;
+  }
+  div:last-child {
+    display: flex;
+  }
+`;
 const Date = styled.p`
   color: #c6c6c6;
   font-size: 16px;
@@ -21,6 +43,7 @@ const Date = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-right: 10px;
 `;
 
 const Text = styled.p`
@@ -30,17 +53,15 @@ const Text = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  word-break: break-all;
   max-width: 160px;
 `;
 
 const Money = styled.p`
-  color: #c70000;
+  color: ${(props) => (props.type === "withDrawal" ? "#c70000" : "#03AC00")};
   text-align: right;
   font-size: 16px;
   font-family: Raleway;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-right: 0px;
 `;
