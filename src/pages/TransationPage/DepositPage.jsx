@@ -64,7 +64,6 @@ export default function Deposit() {
             placeholder="Descrição"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            required
           />
           <button data-test="registry-save" type="submit">
             Salvar entrada
