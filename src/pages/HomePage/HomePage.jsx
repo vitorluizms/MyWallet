@@ -22,7 +22,7 @@ export default function Home() {
         setObj(req.data);
         let count = 0;
         req.data.forEach((element) => {
-          if (element.type === "deposit") {
+          if (element.type === "entrada") {
             count += Number(element.value);
           } else {
             count -= Number(element.value);
@@ -68,7 +68,7 @@ export default function Home() {
       </TransationsContainer>
       <div>
         <Link
-          to={"/nova-transacao/:deposit"}
+          to={"/nova-transacao/:entrada"}
           style={{ textDecoration: "none" }}
         >
           <DepositContainer>
@@ -80,7 +80,7 @@ export default function Home() {
           </DepositContainer>
         </Link>
         <Link
-          to={"/nova-transacao/:withDrawal"}
+          to={"/nova-transacao/:saida"}
           style={{ textDecoration: "none" }}
         >
           <CashoutContainer>
