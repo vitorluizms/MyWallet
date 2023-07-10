@@ -10,7 +10,6 @@ export default function Deposit() {
   const [description, setDescription] = useState("");
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log(params.tipo);
 
   const postTransation = (e) => {
     e.preventDefault();
@@ -22,7 +21,6 @@ export default function Deposit() {
       value: newValue,
       description,
     };
-    console.log(body);
     axios
       .post(`${import.meta.env.VITE_API_URL}/transation/${params.tipo}`, body, {
         headers: { Authorization: `Bearer ${user.token}` },
@@ -34,7 +32,7 @@ export default function Deposit() {
         alert(error.response.data);
       });
   };
-  if (params.tipo === ":entrada") {
+  if (params.tipo === "entrada") {
     return (
       <Container>
         <h1>Nova Entrada</h1>
@@ -70,7 +68,7 @@ export default function Deposit() {
         </Form>
       </Container>
     );
-  } else if (params.tipo === ":saida") {
+  } else if (params.tipo === "saida") {
     return (
       <Container>
         <h1>Nova Saída</h1>

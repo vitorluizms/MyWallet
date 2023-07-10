@@ -12,13 +12,11 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    console.log(user);
     axios
       .get(`${import.meta.env.VITE_API_URL}/transations`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((req) => {
-        console.log(req);
         setObj(req.data);
         let count = 0;
         req.data.forEach((element) => {
@@ -72,7 +70,7 @@ export default function Home() {
       </TransationsContainer>
       <div>
         <Link
-          to={"/nova-transacao/:entrada"}
+          to={"/nova-transacao/entrada"}
           style={{ textDecoration: "none" }}
         >
           <DepositContainer data-test="new-income">
@@ -83,7 +81,7 @@ export default function Home() {
             </div>
           </DepositContainer>
         </Link>
-        <Link to={"/nova-transacao/:saida"} style={{ textDecoration: "none" }}>
+        <Link to={"/nova-transacao/saida"} style={{ textDecoration: "none" }}>
           <CashoutContainer data-test="new-expense">
             <ion-icon name="remove-circle-outline"></ion-icon>
             <div>
@@ -164,7 +162,7 @@ const ContainerBalance = styled.div`
   }
 
   p {
-    color: ${props => props.balance >= 0 ? "#03ac00": "#c70000"};
+    color: ${(props) => (props.balance >= 0 ? "#03ac00" : "#c70000")};
     text-align: right;
     font-family: Raleway;
     font-size: 17px;
