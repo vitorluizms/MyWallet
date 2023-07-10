@@ -12,7 +12,7 @@ export default function Transation(props) {
         <Text data-test="registry-name">{description}</Text>
       </div>
       <div>
-        <Money data-test="registry-amount" type={type}>{value}</Money>
+        <Money data-test="registry-amount" type={type}>{value.replace(".", ",")}</Money>
       </div>
     </Container>
   );

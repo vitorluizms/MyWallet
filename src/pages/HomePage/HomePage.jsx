@@ -62,7 +62,7 @@ export default function Home() {
             ))}
             <ContainerBalance balance={balance}>
               <h3>SALDO</h3>
-              <p data-test="total-amount">{balance}</p>
+              <p data-test="total-amount">{balance.replace(".",",")}</p>
             </ContainerBalance>
           </>
         )}
