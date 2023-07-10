@@ -17,7 +17,7 @@ export default function Home() {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((req) => {
-        setObj(req.data);
+        setObj(req.data.reverse());
         let count = 0;
         req.data.forEach((element) => {
           if (element.type === "entrada") {
@@ -62,7 +62,7 @@ export default function Home() {
             ))}
             <ContainerBalance balance={balance}>
               <h3>SALDO</h3>
-              <p data-test="total-amount">{balance.replace(".",",")}</p>
+              <p data-test="total-amount">{balance.replace(".", ",")}</p>
             </ContainerBalance>
           </>
         )}
