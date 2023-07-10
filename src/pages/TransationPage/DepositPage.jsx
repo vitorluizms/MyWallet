@@ -29,7 +29,11 @@ export default function Deposit() {
         navigate("/home");
       })
       .catch((error) => {
-        alert(error.response.data);
+        if (!user.token) {
+          navigate("/");
+        } else {
+          alert(error.response.data);
+        }
       });
   };
   if (params.tipo === "entrada") {

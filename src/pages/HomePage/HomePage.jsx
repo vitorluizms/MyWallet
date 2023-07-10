@@ -30,7 +30,6 @@ export default function Home() {
       })
       .catch((err) => {
         if (!user.token) {
-          alert("Faça login!");
           navigate("/");
         } else {
           alert(err);
@@ -69,10 +68,7 @@ export default function Home() {
         )}
       </TransationsContainer>
       <div>
-        <Link
-          to={"/nova-transacao/entrada"}
-          style={{ textDecoration: "none" }}
-        >
+        <Link to={"/nova-transacao/entrada"} style={{ textDecoration: "none" }}>
           <DepositContainer data-test="new-income">
             <ion-icon name="add-circle-outline"></ion-icon>
             <div>
