@@ -57,7 +57,7 @@ const Text = styled.p`
 `;
 
 const Money = styled.p`
-  color: ${(props) => (props.type === "withDrawal" ? "#c70000" : "#03AC00")};
+  color: ${(props) => (props.type === "saida" ? "#c70000" : "#03AC00")};
   text-align: right;
   font-size: 16px;
   font-family: Raleway;

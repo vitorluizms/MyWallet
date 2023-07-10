@@ -63,7 +63,7 @@ export default function Home() {
             {transationsObj.map((transation, index) => (
               <Transation key={index} transation={transation} />
             ))}
-            <ContainerBalance>
+            <ContainerBalance balance={balance}>
               <h3>SALDO</h3>
               <p data-test="total-amount">{balance}</p>
             </ContainerBalance>
@@ -164,7 +164,7 @@ const ContainerBalance = styled.div`
   }
 
   p {
-    color: #03ac00;
+    color: ${props => props.balance >= 0 ? "#03ac00": "#c70000"};
     text-align: right;
     font-family: Raleway;
     font-size: 17px;
