@@ -35,6 +35,7 @@ export default function Register() {
       <h1>MyWallet</h1>
       <Form onSubmit={signUp} email={email}>
         <input
+          data-test="name"
           placeholder="Nome"
           id="name"
           name="name"
@@ -44,6 +45,7 @@ export default function Register() {
           required
         ></input>
         <input
+          data-test="email"
           placeholder="E-mail"
           id="email"
           name="email"
@@ -53,6 +55,7 @@ export default function Register() {
           required
         ></input>
         <input
+          data-test="password"
           placeholder="Senha"
           id="password"
           name="password"
@@ -63,6 +66,7 @@ export default function Register() {
           required
         ></input>
         <input
+          data-test="conf-password"
           placeholder="Confirme a senha"
           id="confirmPass"
           name="confirmPass"
@@ -79,7 +83,9 @@ export default function Register() {
           minLength={3}
           required
         ></input>
-        <button>Cadastrar</button>
+        <button data-test="sign-up-submit" type="submit">
+          Cadastrar
+        </button>
       </Form>
       <p>
         Parece que as senhas inseridas não são iguais. Por favor, tente

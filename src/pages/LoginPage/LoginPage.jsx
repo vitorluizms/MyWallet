@@ -7,8 +7,8 @@ import { UserContext } from "../../contexts/userContexts";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {user, setUser} = useContext(UserContext)
-  const navigate = useNavigate()
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   async function signIn(e) {
     e.preventDefault();
@@ -19,8 +19,8 @@ export default function Login() {
         body
       );
       localStorage.setItem("user", JSON.stringify(req.data));
-      setUser(req.data)
-      navigate("/home")
+      setUser(req.data);
+      navigate("/home");
     } catch (err) {
       alert(err.response.data);
     }
@@ -30,6 +30,7 @@ export default function Login() {
       <h1>MyWallet</h1>
       <Form onSubmit={signIn}>
         <input
+          data-test="email"
           placeholder="E-mail"
           id="email"
           name="email"
@@ -39,6 +40,7 @@ export default function Login() {
           required
         ></input>
         <input
+          data-test="password"
           placeholder="Senha"
           id="password"
           name="password"
@@ -47,7 +49,9 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         ></input>
-        <button type="submit">Entrar</button>
+        <button data-test="sign-in-submit" type="submit">
+          Entrar
+        </button>
       </Form>
       <p>
         Primeira vez?{" "}

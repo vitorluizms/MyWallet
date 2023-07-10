@@ -10,7 +10,7 @@ export default function Deposit() {
   const [description, setDescription] = useState("");
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log(params.tipo)
+  console.log(params.tipo);
 
   const postTransation = (e) => {
     e.preventDefault();
@@ -23,15 +23,16 @@ export default function Deposit() {
       description,
     };
     console.log(body);
-    axios.post(`${import.meta.env.VITE_API_URL}/transation/${params.tipo}`, body, {
-      headers: { Authorization: `Bearer ${user.token}` },
-    })
-    .then( () => {
-      navigate("/home")
-    })
-    .catch( (error) => {
-      alert(error.response.data)
-    })
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/transation/${params.tipo}`, body, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then(() => {
+        navigate("/home");
+      })
+      .catch((error) => {
+        alert(error.response.data);
+      });
   };
   if (params.tipo === ":entrada") {
     return (
@@ -39,6 +40,7 @@ export default function Deposit() {
         <h1>Nova Entrada</h1>
         <Form onSubmit={postTransation}>
           <input
+            data-test="registry-amount-input"
             type="text"
             placeholder="Valor"
             id="value"
@@ -53,6 +55,7 @@ export default function Deposit() {
             required
           />
           <input
+            data-test="registry-name-input"
             type="text"
             name="description"
             id="description"
@@ -61,7 +64,9 @@ export default function Deposit() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-          <button type="submit">Salvar entrada</button>
+          <button data-test="registry-save" type="submit">
+            Salvar entrada
+          </button>
         </Form>
       </Container>
     );
@@ -71,6 +76,7 @@ export default function Deposit() {
         <h1>Nova Saída</h1>
         <Form onSubmit={postTransation}>
           <input
+            data-test="registry-amount-input"
             type="text"
             placeholder="Valor"
             id="value"
@@ -80,6 +86,7 @@ export default function Deposit() {
             required
           />
           <input
+            data-test="registry-name-input"
             type="text"
             name="description"
             id="description"
@@ -88,7 +95,9 @@ export default function Deposit() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-          <button>Salvar saída</button>
+          <button data-test="registry-save" type="submit">
+            Salvar saída
+          </button>
         </Form>
       </Container>
     );

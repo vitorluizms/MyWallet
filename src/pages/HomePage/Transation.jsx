@@ -9,10 +9,10 @@ export default function Transation(props) {
       <div>
         <Date>{date}</Date>
 
-        <Text>{description}</Text>
+        <Text data-test="registry-name">{description}</Text>
       </div>
       <div>
-        <Money type={type}>{value}</Money>
+        <Money data-test="registry-amount" type={type}>{value}</Money>
       </div>
     </Container>
   );

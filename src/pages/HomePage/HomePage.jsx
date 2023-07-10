@@ -48,8 +48,12 @@ export default function Home() {
   return (
     <Container>
       <div>
-        <h1>Olá, Fulano</h1>
-        <ion-icon name="log-out-outline" onClick={logOut}></ion-icon>
+        <h1 data-test="user-name">Olá, {user.name}</h1>
+        <ion-icon
+          data-test="logout"
+          name="log-out-outline"
+          onClick={logOut}
+        ></ion-icon>
       </div>
       <TransationsContainer obj={transationsObj}>
         {transationsObj.length === 0 ? (
@@ -61,7 +65,7 @@ export default function Home() {
             ))}
             <ContainerBalance>
               <h3>SALDO</h3>
-              <p>{balance}</p>
+              <p data-test="total-amount">{balance}</p>
             </ContainerBalance>
           </>
         )}
@@ -71,7 +75,7 @@ export default function Home() {
           to={"/nova-transacao/:entrada"}
           style={{ textDecoration: "none" }}
         >
-          <DepositContainer>
+          <DepositContainer data-test="new-income">
             <ion-icon name="add-circle-outline"></ion-icon>
             <div>
               <p>Nova</p>
@@ -79,11 +83,8 @@ export default function Home() {
             </div>
           </DepositContainer>
         </Link>
-        <Link
-          to={"/nova-transacao/:saida"}
-          style={{ textDecoration: "none" }}
-        >
-          <CashoutContainer>
+        <Link to={"/nova-transacao/:saida"} style={{ textDecoration: "none" }}>
+          <CashoutContainer data-test="new-expense">
             <ion-icon name="remove-circle-outline"></ion-icon>
             <div>
               <p>Nova</p>
@@ -201,7 +202,7 @@ const TransationsContainer = styled.div`
   }
 `;
 
-const DepositContainer = styled.div`
+const DepositContainer = styled.button`
   width: 155px;
   height: 114px;
   padding: 9px;
@@ -212,6 +213,7 @@ const DepositContainer = styled.div`
 
   border-radius: 5px;
   background: #a328d6;
+  border: none;
 
   p {
     color: #fff;
@@ -223,7 +225,7 @@ const DepositContainer = styled.div`
   }
 `;
 
-const CashoutContainer = styled.div`
+const CashoutContainer = styled.button`
   width: 155px;
   height: 114px;
   padding: 9px;
@@ -234,6 +236,7 @@ const CashoutContainer = styled.div`
 
   border-radius: 5px;
   background: #a328d6;
+  border: none;
 
   p {
     color: #fff;
