@@ -30,7 +30,7 @@ export default function Deposit() {
       navigate("/home")
     })
     .catch( (error) => {
-      console.log(error)
+      alert(error.response.data)
     })
   };
   if (params.tipo === ":deposit") {
