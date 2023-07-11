@@ -8,16 +8,18 @@ export default function Transation(props) {
   const { getTransations } = props;
   const { user } = useContext(UserContext);
   function deleteTransation(id) {
-    axios
-      .delete(`${import.meta.env.VITE_API_URL}/transation/${id}`, {
-        headers: { authorization: `Bearer ${user.token}` },
-      })
-      .then((req) => {
-        getTransations();
-      })
-      .catch((error) => {
-        alert(error.response.data);
-      });
+    if (window.confirm("Você quer deletar essa transação?") === true) {
+      axios
+        .delete(`${import.meta.env.VITE_API_URL}/transation/${id}`, {
+          headers: { authorization: `Bearer ${user.token}` },
+        })
+        .then((req) => {
+          getTransations();
+        })
+        .catch((error) => {
+          alert(error.response.data);
+        });
+    } else return;
   }
 
   return (
@@ -32,6 +34,7 @@ export default function Transation(props) {
           {value.replace(".", ",")}
         </Money>
         <ion-icon
+          data-test="registry-delete"
           name="trash-outline"
           onClick={() => deleteTransation(id)}
         ></ion-icon>
