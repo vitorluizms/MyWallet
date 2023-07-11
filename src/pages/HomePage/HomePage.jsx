@@ -12,9 +12,13 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
+    getTransations();
+  }, []);
+
+  function getTransations() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/transations`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { authorization: `Bearer ${user.token}` },
       })
       .then((req) => {
         setObj(req.data.reverse());
@@ -35,7 +39,7 @@ export default function Home() {
           alert(err);
         }
       });
-  }, []);
+  }
 
   function logOut() {
     localStorage.clear();
@@ -58,7 +62,11 @@ export default function Home() {
         ) : (
           <>
             {transationsObj.map((transation, index) => (
-              <Transation key={index} transation={transation} />
+              <Transation
+                key={index}
+                transation={transation}
+                getTransations={getTransations}
+              />
             ))}
             <ContainerBalance balance={balance}>
               <h3>SALDO</h3>
