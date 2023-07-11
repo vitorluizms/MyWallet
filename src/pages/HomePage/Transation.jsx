@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/userContexts";
 
 export default function Transation(props) {
   const { description, value, date, type, id } = props.transation;
-  const { getTransations } = props;
+  const { getTransations, setBalance, balance } = props;
   const { user } = useContext(UserContext);
   function deleteTransation(id) {
     if (window.confirm("Você quer deletar essa transação?") === true) {
@@ -14,6 +14,8 @@ export default function Transation(props) {
           headers: { authorization: `Bearer ${user.token}` },
         })
         .then((req) => {
+          let count = Number(balance.replace(",", ".")) - Number(value);
+          setBalance(count.toFixed(2));
           getTransations();
         })
         .catch((error) => {

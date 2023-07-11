@@ -10,6 +10,7 @@ export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [balance, setBalance] = useState(0);
+  console.log(balance);
 
   useEffect(() => {
     getTransations();
@@ -63,6 +64,8 @@ export default function Home() {
           <>
             {transationsObj.map((transation, index) => (
               <Transation
+                balance={balance}
+                setBalance={setBalance}
                 key={index}
                 transation={transation}
                 getTransations={getTransations}
